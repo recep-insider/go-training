@@ -1,15 +1,18 @@
 package cohorts
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 type Batch struct {
 	Batch []Batches `json:"batch"`
 }
 
 type Batches struct {
-	Type    string                 `json:"type"`
-	Traits  map[string]interface{} `json:"traits"`
-	UserId  string                 `json:"userId"`
+	Type    string `json:"type"`
+	Traits  Traits `json:"traits"`
+	UserId  string `json:"userId"`
 	Context struct {
 		Integration struct {
 			Name    string `json:"name"`
@@ -18,8 +21,10 @@ type Batches struct {
 	} `json:"context"`
 }
 
-func GetCohortName(trait interface{}) string {
-	traitKey := reflect.ValueOf(trait)
+type Traits map[string]interface{}
+
+func (b Batches) GetCohortName() string {
+	traitKey := reflect.ValueOf(b.Traits)
 
 	var result []string
 
@@ -28,4 +33,8 @@ func GetCohortName(trait interface{}) string {
 	}
 
 	return result[0]
+}
+
+func A(b Batch) {
+	fmt.Println(b)
 }

@@ -3,9 +3,9 @@ package upsert
 import (
 	"bytes"
 	"encoding/json"
+	"go-training/internal/cohorts"
 	"io/ioutil"
 	"net/http"
-	"pergamon/internal/cohorts"
 )
 
 const (
@@ -34,8 +34,8 @@ func GetInsertUsers(batch cohorts.Batch) string {
 	for _, item := range batch.Batch {
 		user.Identifiers.Email = item.UserId
 
-		if item.Traits[cohorts.GetCohortName(item.Traits)].(bool) {
-			user.Attributes.Custom.Acn[0] = cohorts.GetCohortName(item.Traits)
+		if item.Traits[item.GetCohortName()].(bool) {
+			user.Attributes.Custom.Acn[0] = item.GetCohortName()
 			users.Users = append(users.Users, user)
 		}
 	}
@@ -67,8 +67,8 @@ func GetDeleteUsers(batch cohorts.Batch) string {
 	for _, item := range batch.Batch {
 		user.Identifiers.Email = item.UserId
 
-		if !item.Traits[cohorts.GetCohortName(item.Traits)].(bool) {
-			user.Custom.Partial.Acn[0] = cohorts.GetCohortName(item.Traits)
+		if !item.Traits[item.GetCohortName()].(bool) {
+			user.Custom.Partial.Acn[0] = item.GetCohortName()
 			users.Users = append(users.Users, user)
 		}
 	}

@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"pergamon/internal/cohorts"
-	"pergamon/internal/upsert"
+	"go-training/internal/cohorts"
+	"go-training/internal/upsert"
 
 	"github.com/labstack/echo/v4"
 )
